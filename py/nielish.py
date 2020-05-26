@@ -1,22 +1,14 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon May 18 20:51:29 2020
-
-@author: kyzyl-ool
-"""
-
-
 import torch
 import math
 from torch.optim.optimizer import Optimizer
 from torch.nn import Module
 from copy import deepcopy
+from matplotlib import pyplot as plt
+import torch.nn as nn
+import torch.nn.functional as F
 
 
-class CubicNewton(Optimizer):
-    
-    
+class SCR(Optimizer):
     """Implements Cubic Newton Method with gradient descent as a subsolver.
 
 
@@ -37,7 +29,7 @@ class CubicNewton(Optimizer):
             raise ValueError("Invalid output: {}".format(output))
 
         defaults = dict(output = output, L = L, lr = lr, eps = eps, max_iter = max_iter)
-        super(CubicNewton, self).__init__(params, defaults)
+        super(SCR, self).__init__(params, defaults)
 
         for group in self.param_groups:
             for p in group['params']:
@@ -66,6 +58,7 @@ class CubicNewton(Optimizer):
             lr = group['lr']
             L = group['L']
             max_iter = group['max_iter']
+            eps = group['eps']
             
             
             #Gradient computation
@@ -82,7 +75,7 @@ class CubicNewton(Optimizer):
             j = 0
             while (j < max_iter-1):
                 
-                grads = torch.autograd.grad(output, list(params), create_graph = True, retain_graph=True)
+                grads = torch.autograd.grad(output, list(params), create_graph = True)
                 #Hessian-vector product
                 dot = 0
                 norm = 0
@@ -126,7 +119,4 @@ class CubicNewton(Optimizer):
         hvp = torch.autograd.grad(dot, params, retain_graph = True)
         return hvp
     
-    
 
-   
-    
