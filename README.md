@@ -2,9 +2,9 @@
  Stochastic Cubic Regularization for Fast Nonconvex Optimization
 
 # Everyone's share in the project
-- Kezhik: 45%
-- Ehson: 27%
-- Nursultan: 28%
+- Kezhik: 34%
+- Ehson: 33%
+- Nursultan: 33%
 
 # Abstract
 
